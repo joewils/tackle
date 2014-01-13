@@ -1,9 +1,8 @@
 <div class="list-group">
-	{% for category in site.data.categories %}
-		{% if category[1]['products'].size > 12 %}
+	{% for category in site.data.categories | sort %}
+		{% if category[1]['products'].size > 0 %}
 	        {% assign words = category[0] | split: '-' %}
 	        {% assign title = words | join: ' ' %}
-	        {% assign title = title | camelcase %}
 			<a href="{{site.baseurl}}/{{category[0]}}" class="list-group-item">{{ title }}</a>
 		{% endif %}
 	{% endfor %}

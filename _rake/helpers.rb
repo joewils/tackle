@@ -38,7 +38,8 @@ def build_product_front_matter (product)
   post = Hash.new
   post['layout'] = 'product'
   post['title'] = product['product_name']
-  post['sku'] = product['sku']
+  post['sku'] = seo_string(product['sku']).gsub('_','')
+  post['dirty_sku'] = product['sku']
   post['lg_image'] = product['image_url']
   post['md_image'] = product['medium_image_url']
   post['sm_image'] = product['thumb_url']
@@ -49,13 +50,21 @@ def build_product_front_matter (product)
   if (product['long_description']) 
     post['description_list'] = build_description_list(product['long_description'])
   end
-  if (product['keywords'] != nil) 
-    post['tags'] = Array.new
-    tags = product['keywords'].split(",")
+  post['tags'] = Array.new
+  tag_string = seo_string(post['title'])
+  tags = tag_string.split("-")
+  tags.each do |tag|
+    tag = clean_tag(tag)
+    post['tags'].push(tag) if tag
+  end
+  if (post['categories'][0] != nil) 
+    tags = post['categories'][0].split("-")
     tags.each do |tag|
-      post['tags'].push(seo_string(tag))
+      tag = clean_tag(tag)
+      post['tags'].push(seo_string(tag)) if tag
     end
   end
+  post['tags'] = post['tags'].to_set.to_a
   if (product['retail_price'] == product['sale_price'])
     discount = ( (1+Random.rand(9).to_f) / 100 )
     you_save = product['retail_price'].to_f * discount
@@ -108,7 +117,7 @@ def time_rand from = Time.now - (2*7*24*60*60), to = Time.now
 end
 
 def seo_string (name)
-  clean_name = name.gsub('/','-').gsub(' ','-').gsub('\'','').gsub('&-','').gsub(',','').gsub('(','').gsub(')','').gsub('----','-').gsub('---','-').gsub('--','-').gsub(':','')
+  clean_name = name.gsub('/','-').gsub('.','').gsub('&','').gsub('#','').gsub(' ','-').gsub('\'','').gsub('&-','').gsub(',','').gsub('(','').gsub(')','').gsub('----','-').gsub('---','-').gsub('--','-').gsub(':','').gsub('"','in')
   clean_name = clean_name.downcase
 end
 
@@ -117,10 +126,34 @@ def titleize(string)
 end
 
 def normalize_category(category)
+    category = category.gsub('"','in')
     category = 'kids' if category == 'kids-gear-and-clothing'
     category = 'womens' if category == 'womens-clothing'
     category = 'mens' if category == 'mens-clothing'
     category = 'snow' if category == 'skiing-and-snowboarding'
     return category
 end
+
+def is_number(n)
+  n.to_f.to_s == n.to_s || n.to_i.to_s == n.to_s
+end
+
+def clean_tag(tag)
+    tag = tag.gsub('spck','speck').gsub('speckl','speckle').gsub('bas','bass').gsub('orangeblack','orange').gsub('orangetinge','orange').gsub('blu','blue').gsub('blk','black').gsub('yel','yellow').gsub('wht','white').gsub('slv','silver').gsub('purp','purple').gsub('purpl','purple').gsub('silv','silver').gsub('yellolow','yellow').gsub('holo','yellow')
+    tag = tag.chomp("s")
+    return false if is_number(tag)
+    return false if tag.length < 3
+    return false if tag == 'the'
+    return false if tag == 'with'
+    return false if tag == 'rth'
+    return false if tag == 'other'
+    return false if tag == 'fth'
+    return false if tag == 'big'
+    return false if tag == 'all'
+    return false if tag == '9in'  
+    return false if tag == 'serie' 
+    return false if tag == 'sal' 
+    return tag
+end
+
 

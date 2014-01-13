@@ -27,6 +27,7 @@ task :products do
       pid = fragment.xpath('.//SKU').text
       next unless pid != ''
       pid = seo_string(pid)
+      pid = pid.gsub('_','')
       brand = fragment.xpath('.//Brand_Name').text
       products[pid] = Hash.new
       fragment.children.each do |node|

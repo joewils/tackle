@@ -33,16 +33,24 @@ task :tags do
     posts.reverse.each do |post|
       post_data = post.to_liquid
       pid = post_data['sku']
-      html += "<div class=\"col-sm-6 col-md-3\">\n";
-        html += "<div class=\"thumbnail alert alert-info\" style=\"margin-bottom:30px;max-width:300px\">\n";
-          html += "<a href=\"" + site.baseurl + post_data["url"] + "\">";
-          html += "<img src=\"" + products[pid]['image_url'] + "\" class=\"img-responsive\" />";
-          html += "</a>\n"
-          html += "<div class=\"caption\" style=\"height:100px;overflow:hidden\">\n"
-            html += "<h4>" + post_data["title"] + "</h4>\n";
-          html += "</div>\n";
-        html += "</div>\n";
-      html += "</div>\n\n";
+      html += "<div class=\"col-xs-6 col-sm-4 col-md-3\">\n"
+        html += "<div class=\"thumbnail\" style=\"margin-bottom:30px;max-width:300px;\">\n"
+
+          html += "<div class=\"caption\" style=\"height:50px;overflow:hidden\">\n"
+            html += "<p>"
+            html += "<a href=\"" + site.baseurl + post_data["url"] + "\">"
+            html += post_data["title"]
+            html += "</a></p>\n"
+          html += "</div>\n"
+
+          html += "<div style=\"height:200px;width:100%;overflow:hidden\">\n"
+            html += "<a href=\"" + site.baseurl + post_data["url"] + "\">\n"
+            html += "<img src=\"" + products[pid]['image_url'] + "\" class=\"img-responsive\" />\n"
+            html += "</a>\n"
+          html += "</div>\n"
+
+        html += "</div>\n"
+      html += "</div>\n\n"
     end
     html += "</div>\n\n"
     

@@ -19,9 +19,10 @@ task :category_data do
   site.posts.each do |post|
     data = post.to_liquid
 
-    next if data['categories'].length != 3
-
     primary_category = data['categories'][0]
+
+    puts primary_category
+
     secondary_category = data['categories'][1]
     tertiary_category = data['categories'][2]
 
@@ -33,35 +34,37 @@ task :category_data do
       categories[primary_category]['products'].push(data['sku'])
     else
       categories[primary_category] = Hash.new
-      categories[primary_category]['children'] = Hash.new
+      categories[primary_category]['children'] = Hash.new if secondary_category
       categories[primary_category]['products'] = Array.new
       categories[primary_category]['products'].push(data['sku'])
     end
 
     # Secondary Categories
-    if (categories[primary_category]['children'][secondary_category].is_a?(Hash)) 
-      categories[primary_category]['children'][secondary_category]['products'].push(data['sku'])
-    else
-      categories[primary_category]['children'][secondary_category] = Hash.new
-      categories[primary_category]['children'][secondary_category]['children'] = Hash.new
-      categories[primary_category]['children'][secondary_category]['products'] = Array.new
-      categories[primary_category]['children'][secondary_category]['products'].push(data['sku'])
-    end
+    if (secondary_category) 
+      if (categories[primary_category]['children'][secondary_category].is_a?(Hash)) 
+        categories[primary_category]['children'][secondary_category]['products'].push(data['sku'])
+      else
+        categories[primary_category]['children'][secondary_category] = Hash.new
+        categories[primary_category]['children'][secondary_category]['children'] = Hash.new
+        categories[primary_category]['children'][secondary_category]['products'] = Array.new
+        categories[primary_category]['children'][secondary_category]['products'].push(data['sku'])
+      end
 
-    # Tertiary Categories
-    if (categories[primary_category]['children'][secondary_category]['children'][tertiary_category].is_a?(Hash)) 
-      categories[primary_category]['children'][secondary_category]['children'][tertiary_category]['products'].push(data['sku'])
-    else
-      categories[primary_category]['children'][secondary_category]['children'][tertiary_category] = Hash.new
-      categories[primary_category]['children'][secondary_category]['children'][tertiary_category]['products'] = Array.new
-      categories[primary_category]['children'][secondary_category]['children'][tertiary_category]['products'].push(data['sku'])
+      # Tertiary Categories
+      if (categories[primary_category]['children'][secondary_category]['children'][tertiary_category].is_a?(Hash)) 
+        categories[primary_category]['children'][secondary_category]['children'][tertiary_category]['products'].push(data['sku'])
+      else
+        categories[primary_category]['children'][secondary_category]['children'][tertiary_category] = Hash.new
+        categories[primary_category]['children'][secondary_category]['children'][tertiary_category]['products'] = Array.new
+        categories[primary_category]['children'][secondary_category]['children'][tertiary_category]['products'].push(data['sku'])
+      end
     end
 
   end
 
   # YAML Category Data
   File.open("_data/categories.yml", 'w+') do |file|
-    file.puts categories.to_yaml(line_width: -1)
+    file.puts categories.sort.to_yaml(line_width: -1)
   end
 
   # JSON Category Data

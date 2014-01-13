@@ -5,12 +5,16 @@ title: browse all products
 <div class="row">
 		{% for post in paginator.posts %}
 		<div class="col-xs-6 col-sm-4 col-md-3">
-				<div class="thumbnail" style="margin-bottom:30px;max-width:300px">
-		      <a href="{{ site.baseurl}}{{ post.url }}"><img data-original="{{ post.lg_image }}" class="lazy img-responsive"></a>
-		      <div class="caption" style="height:100px;overflow:hidden">
+				<div class="thumbnail" style="margin-bottom:30px;max-width:300px;">
+		      <div class="caption" style="height:50px;overflow:hidden">
 		        <p>
 		        	{% if post.sale_price %}<span class="label label-success">${{ post.sale_price }}</span>&nbsp;<a href="{{ site.baseurl}}{{ post.url }}">{% endif %}{{ post.title }}</a>
 		        </p>
+		      </div>
+		      <div style="height:200px;width:100%;overflow:hidden">
+		      	<a href="{{ site.baseurl}}{{ post.url }}">
+		      		<img data-original="{{ post.lg_image }}" class="lazy img-responsive">
+		      	</a>
 		      </div>
 		    </div>
 		</div>

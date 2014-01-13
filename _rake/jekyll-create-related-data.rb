@@ -18,6 +18,9 @@ task :related do
   site.posts.each do |post|
   	post_data = post.to_liquid
   	pid = post_data['sku']
+    next unless pid != ''
+    pid = seo_string(pid)
+    pid = pid.gsub('_','')
   	puts pid
   	relationships[pid] = Hash.new
 		relationships[pid]['bought'] = Hash.new
@@ -28,7 +31,7 @@ task :related do
   	secondary_category = post.categories[1]
 
   	# Frequently Purchased Together
-  	samples = site.categories[secondary_category].sample(2)
+  	samples = site.categories[primary_category].sample(2)
   	count = 0
   	max = 1
   	samples.each_with_index do |sample, i|
@@ -60,7 +63,7 @@ task :related do
   	end
 
   	# People Also Bought 
-  	samples = site.categories[primary_category].sample(9)
+  	samples = site.categories[primary_category].sample(11)
   	count = 0
   	max = 4
   	samples.each_with_index do |sample, i|

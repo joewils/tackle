@@ -38,14 +38,7 @@
       </h2>
       <div class="row">
         <div class="col-md-3">
-          <div class="list-group">
-          {% for child in page.children %}
-                {% assign words = child | split: '-' %}
-                {% assign title = words | join: ' ' %}
-                {% assign title = title | camelcase %}
-              <a class="list-group-item" href="{{heritage_url}}/{{ child }}">{{ title }}</a>
-          {% endfor %}
-          </div>
+          {% include sidebar_browse.html %}
         </div>
         <div class="col-md-9">
           <div class="row">
@@ -53,12 +46,16 @@
               {% assign product_data = site.data.products[product] %}
               {% assign product_url = site.data.producturlmap[product] %}
               <div class="col-xs-6 col-sm-4 col-md-3">
-                  <div class="thumbnail" style="margin-bottom:30px;max-width:300px">
-                    <a href="{{site.baseurl}}{{ product_url }}"><img data-original="{{ product_data['image_url'] }}" class="lazy img-responsive"></a>
-                    <div class="caption" style="height:100px;overflow:hidden">
+                  <div class="thumbnail" style="margin-bottom:30px;max-width:300px;">
+                    <div class="caption" style="height:50px;overflow:hidden">
                       <p>
                         {% if product_data['sale_price'] %}<span class="label label-success">${{ product_data['sale_price'] }}</span>&nbsp;{% endif %}<a href="{{site.baseurl}}{{ product_url }}">{{ product_data['product_name'] }}</a>
                       </p>
+                    </div>
+                    <div style="height:200px;width:100%;overflow:hidden">
+                      <a href="{{ site.baseurl}}{{ product_url }}">
+                        <img data-original="{{ product_data['image_url'] }}" class="lazy img-responsive">
+                      </a>
                     </div>
                   </div>
               </div>
