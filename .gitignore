@@ -1,1 +1,22 @@
+# Windows
+
+# Windows image file caches
+Thumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Mac
+.DS_Store
+
+# Jekyll
 _site/
+
+# Bootstrap
+bower_components/bootstrap/_gh_pages
+bower_components/bootstrap/_includes
+bower_components/bootstrap/_layouts
+bower_components/bootstrap/node_modules
+
+# XML
+_xml/

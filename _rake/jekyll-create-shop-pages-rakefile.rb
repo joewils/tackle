@@ -25,7 +25,8 @@ task :products do
       pid = fragment.xpath('.//SKU').text
       next unless pid != ''
       brand = fragment.xpath('.//Brand_Name').text
-      next unless ( (brand == 'The North Face') or (brand == 'Rei') or (brand == 'Patagonia') )
+      #filter by brand name
+      #next unless ( (brand == 'The North Face') or (brand == 'Rei') or (brand == 'Patagonia') )
       products[pid] = Hash.new
       fragment.children.each do |node|
         next if node.name == 'text'

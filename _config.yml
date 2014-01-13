@@ -1,0 +1,12 @@
+name: Fishing Tackle and Lures
+markdown: redcarpet
+pygments: true
+
+#Github Deployment
+baseurl: /tackle
+#Local Deployment
+#baseurl: ""
+paginate: 100
+paginate_path: "page/:num"
+show_drafts: false
+permalink: none
