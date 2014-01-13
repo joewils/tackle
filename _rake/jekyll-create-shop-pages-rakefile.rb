@@ -15,7 +15,7 @@ task :products do
   updated_product_map = Hash.new
 
   # XML
-  reader = Nokogiri::XML::Reader(File.open("_xml/Rei_81603_datafeed.xml"))
+  reader = Nokogiri::XML::Reader(File.open("_xml/PantherMartin_154933_datafeed.xml"))
 
   # Products
   products = YAML.load_file('_data/products.yml')
