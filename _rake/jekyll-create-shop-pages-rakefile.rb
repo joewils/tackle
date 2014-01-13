@@ -12,6 +12,7 @@ task :products do
 
   # Existing Product Map
   existing_product_map = YAML.load_file('_data/productmap.yml')
+  existing_product_map = Hash.new unless existing_product_map
   updated_product_map = Hash.new
 
   # XML
@@ -19,14 +20,14 @@ task :products do
 
   # Products
   products = YAML.load_file('_data/products.yml')
+  products = Hash.new unless products
   reader.each do |node|
     if node.name == "Product"
       fragment = Nokogiri::XML.fragment(node.inner_xml)
       pid = fragment.xpath('.//SKU').text
       next unless pid != ''
+      pid = seo_string(pid)
       brand = fragment.xpath('.//Brand_Name').text
-      #filter by brand name
-      #next unless ( (brand == 'The North Face') or (brand == 'Rei') or (brand == 'Patagonia') )
       products[pid] = Hash.new
       fragment.children.each do |node|
         next if node.name == 'text'

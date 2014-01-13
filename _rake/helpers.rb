@@ -1,3 +1,8 @@
+require 'rubygems'
+require 'jekyll'
+require 'yaml'
+include Jekyll::Filters
+
 def build_category_front_matter (category, heritage='')
   post = Hash.new
   post['layout'] = 'category'
@@ -39,8 +44,8 @@ def build_product_front_matter (product)
   post['sm_image'] = product['thumb_url']
   post['categories'] = Array.new
   post['categories'].push(normalize_category(seo_string(product['category'])))
-  post['categories'].push(seo_string(product['subcategory']))
-  post['categories'].push(seo_string(product['product_group']))
+  post['categories'].push(seo_string(product['subcategory'])) if product['subcategory']
+  post['categories'].push(seo_string(product['product_group'])) if product['product_group']
   if (product['long_description']) 
     post['description_list'] = build_description_list(product['long_description'])
   end
