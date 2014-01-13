@@ -1,21 +1,27 @@
 ---
-layout: default
-title: tags
+layout : default
+title  : tags
+github : https://github.com/enrmarc/jekyll-tagcloud
 ---
 
 <div class="row">
-  <div class="col-md-3">
-    <div class="list-group">
-    {% for tag in site.tags %}
-      <a class="list-group-item" href="{{site.baseurl}}/tags/{{ tag }}">
-        {{ tag }}
-        <span class="badge"></span>
-      </a>
-    {% endfor %}
+  <div class="col-md-9">
+    <h2>browse by tag</h2>
+    <div class="tag-cloud">
+       {% for tag in site.tags %}
+          <a href="#posts-tag" id="{{ forloop.index }}" class="__tag" style="margin: 5px">{{ tag[0] }}</a>
+          <ul id="list_{{ forloop.index }}" style="display:none;">
+             {% for post in tag[1] %}
+                <li class="list-group-item"><a href="{{site.baseurl}}/{{ post.url }}">{{ post.title }}</a></li>
+             {% endfor %}
+          </ul>
+       {% endfor %}
     </div>
   </div>
-  <div class="col-md-9">
-    {{ content }}
+  <div class="col-md-3">
+    <h2>&nbsp;</h2>
+    <div id ="posts-tags" class="post-list"></div>
   </div>
 </div>
+
 
