@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% include head.html %}
+  </head>
+
+  <body>
+  {% include top_nav.html %}
+
+    <div class="container">
+      <h2>      
+        {% for breadcrumb in page.breadcrumb %}
+            <a href="{{site.baseurl}}{{ breadcrumb['url'] }}">{{ breadcrumb['title'] }}</a> &rarr; 
+        {% endfor %}
+        {{ page.title }}
+      </h2>
+
+      <div class="row">
+        <div class="col-md-3">
+          {% include sidebar_browse.html %}
+        </div>
+        <div class="col-md-9">
+          {% include post_pagination.html %}
+          {{ content }}
+          {% include post_pagination.html %}
+        </div>
+      </div>
+      {% include footer.html %}
+    </div> <!-- /container -->
+
+    {% include javascript.html %}
+  </body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% include head.html %}
+  </head>
+
+  <body>
+  {% include top_nav.html %}
+
+    <div class="container">
+      <h2>      
+        {% for breadcrumb in page.breadcrumb %}
+            <a href="{{site.baseurl}}{{ breadcrumb['url'] }}">{{ breadcrumb['title'] }}</a> &rarr; 
+        {% endfor %}
+        {{ page.title }}
+      </h2>
+      <div class="row">
+        <div class="col-md-3">
+          <div class="list-group">
+          {% for links in page.secondary_nav %}
+            {% for link in links %}
+              <a class="list-group-item" href="{{site.baseurl}}{{ link[0] }}">{{ link[1] }}</a>
+            {% endfor %}
+          {% endfor %}
+          </div>
+        </div>
+        <div class="col-md-9">
+          {{ content }}
+        </div>
+      </div>
+      {% include footer.html %}
+    </div> <!-- /container -->
+
+    {% include javascript.html %}
+  </body>
+</html>

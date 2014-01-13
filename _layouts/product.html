@@ -1,0 +1,202 @@
+---
+layout: default
+---
+
+{% if site.data.products[page.sku] %}
+	{% assign product = site.data.products[page.sku] %}
+
+	<div class="row clearfix visible-md visible-lg" style="margin-bottom:30px;">
+		<div class="col-sm-6">
+			{% if page.previous %}
+				<a href="{{site.baseurl}}{{page.previous.url}}" class="btn btn-primary pull-left">&larr;&nbsp;{{page.previous.title}}</a>
+			{% else %}
+				&nbsp;
+			{% endif %}
+		</div>
+		<div class="col-sm-6">
+			{% if page.next %}
+				<a href="{{site.baseurl}}{{page.next.url}}" class="btn btn-primary pull-right">{{page.next.title}}&nbsp;&rarr;</a>
+			{% else %}
+				&nbsp;
+			{% endif %}
+		</div>
+	</div>
+
+	<div class="row">
+	    <div class="col-sm-4">
+	    	<div style="max-width:300px;margin-top:30px;">
+				<img src="{{product.image_url}}" class="img-responsive" />
+			</div>
+		</div>
+	    <div class="col-sm-8">
+	    	<h2>{{ page.title }}</h2>
+	    	<div class="purchase">
+	    		<div class="table-responsive">
+					<table class="price table table-hover table-bordered">
+						<tr>
+							<th>retail</th><th>sale</th><th>save</th><th>discount</th>
+						</tr>
+						<tr>
+							<td>
+								{% if page.list_price %}
+									${{page.list_price}}
+								{% endif %}
+							</td>
+							<td>
+								{% if page.sale_price %}
+									${{page.sale_price}}
+								{% endif %}
+							</td>
+							<td>
+								{% if page.you_save %}
+									${{page.you_save}}
+								{% endif %}
+							</td>
+							<td>
+								{% if page.discount %}
+									<span>{{page.discount}}%</span>
+								{% endif %}
+							</td>
+						</tr>
+					</table>
+				</div>
+				{% if product.buy_link %}
+					<a href="{{product.buy_link}}" class="btn btn-success btn-lg">
+						<span class="glyphicon glyphicon-tree-conifer"></span>
+						Buy now
+					</a>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+	    <div class="col-sm-9">
+		    <h3>Description:</h3>
+			{% if page.description_list %}
+				{{ page.description_list }}
+			{% elsif product.short_description %}
+				<p class="description">{{ product.short_description }}</p>
+			{% endif %}
+
+			<h3>Frequently Purchased With:</h3>
+			<h4 id="frequently_together"><i class="loading">loading...</i></h4>
+			
+			<h3>Customers Who Viewed This Item Also Viewed:</h3>
+			<ul id="also_viewed"><li class="loading">loading...</li></ul>
+
+			{% if site.related_posts %}
+				<h3>Related Posts:</h3>
+				<ul class="related_posts">
+				{% for post in site.related_posts %}
+					<li><a href="{{site.baseurl}}{{post.url}}">{{post.title}}</a></li>
+				{% endfor %}
+				</ul>
+			{% endif %}
+
+			<h3>Customers Who Bought This Item Also Bought:</h3>
+			<ul id="also_bought"><li class="loading">loading...</li></ul>
+
+			{% if product.variants.size > 1 %}
+				<h3>Variants:</h3>
+				<div class="table-responsive">
+					<table class="variants table table-striped table-hover">
+					<tr>
+						<th>size</th><th>color</th><th>&nbsp;</th>
+					</tr>
+					{% for variant in product.variants %}
+						<tr>
+							<td>
+								{% if variant[1].size %}
+									{{ variant[1].size }}
+								{% endif %}
+							</td>
+							<td>
+								{% if variant[1].color %}
+									{{ variant[1].color }}
+								{% endif %}
+							</td>
+							<td>
+								{% if product.buy_link %}
+									<a href="{{product.buy_link}}" class="btn btn-success btn-xs pull-right">
+										<span class="glyphicon glyphicon-tree-conifer"></span>
+										Buy now
+									</a>
+								{% endif %}
+							</td>
+						</tr>
+					{% endfor %}
+					</table>
+				</div>
+			{% endif %}
+
+			<h3>Product Reviews:</h3>
+			<div class="fb-comments" data-href="http://joecode.com{{site.baseurl}}{{page.url}}" data-colorscheme="light" data-numposts="10"></div>
+			
+			{% if product.product_page_view_tracking %}
+				<span class="sellout">{{product_page_view_tracking}}</span>
+			{% endif %}
+	    </div>
+
+	    <div class="col-sm-3">
+	    	<div class="alert alert-info">
+	    	{% if page.categories.size == 3 %}
+				<h3>Categories:</h3>
+				<ul class="categories">
+		        {% for ancestor in page.categories %}
+		        	<li>
+		            {% case forloop.index %}
+		              {% when 1 %}
+		                {% assign words = page.categories[0] | split: '-' %}
+		                {% assign title = words | join: ' ' %}
+		                {% assign title = title | camelcase %}
+		                <a href="{{site.baseurl}}/{{ page.categories[0] }}/">{{ title }}</a>
+		              {% when 2 %}
+		                {% assign words = page.categories[1] | split: '-' %}
+		                {% assign title = words | join: ' ' %}
+		                {% assign title = title | camelcase %}
+		                <a href="{{site.baseurl}}/{{ page.categories[0] }}/{{ page.categories[1] }}/">{{ title }}</a>
+		              {% when 3 %}
+		                {% assign words = page.categories[2] | split: '-' %}
+		                {% assign title = words | join: ' ' %}
+		                {% assign title = title | camelcase %}
+		                <a href="{{site.baseurl}}/{{ page.categories[0]  }}/{{ page.categories[1] }}/{{ page.categories[2] }}/">{{ title }}</a>
+		              {% else %}
+		            {% endcase %}
+		            </li>
+		        {% endfor %}
+				</ul>
+
+			{% endif %}
+
+			{% if page.tags %}
+				<h3>Tags:</h3>
+				<ul class="tags">
+				{% for tag in page.tags %}
+	                {% assign words = tag | split: '-' %}
+	                {% assign title = words | join: ' ' %}
+	                {% assign title = title | camelcase %}
+					<li><a href="{{site.baseurl}}/tags/{{tag}}/">{{ title }}</a></li>
+				{% endfor %}
+				</ul>
+			{% endif %}
+
+				<h3>&larr;&nbsp;-&nbsp;&rarr;</h3>
+				<ul>
+					{% if page.previous %}
+						<li><a href="{{site.baseurl}}{{page.previous.url}}">{{page.previous.title}}</a></li>
+					{% endif %}
+					{% if page.next %}
+						<li><a href="{{site.baseurl}}{{page.next.url}}">{{page.next.title}}</a></li>
+					{% endif %}
+				</ul>
+
+			</div>
+		</div>
+	</div>
+{% endif %}
+
+<div class="row">
+	{{ content }}
+</div>
+

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% include head.html %}
+  </head>
+
+  <body>
+  {% include top_nav.html %}
+
+    <div class="container">
+      <h3>      
+        {% for breadcrumb in page.breadcrumb %}
+            <a href="{{site.baseurl}}{{ breadcrumb['url'] }}">{{ breadcrumb['title'] }}</a> &rarr; 
+        {% endfor %}
+      </h3>
+      <div class="row">
+        <div class="col-sm-12">
+          {{ content }}
+        </div>
+      </div>
+      {% include footer.html %}
+    </div> <!-- /container -->
+
+    {% include javascript.html %}
+  </body>
+</html>
+

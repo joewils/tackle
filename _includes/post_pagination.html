@@ -1,0 +1,29 @@
+<ul class="pagination" style="margin-top:0;padding-top:0;">
+
+	{% if paginator.previous_page %}
+		<li><a href="{{site.baseurl}}/{{ paginator.previous_page_path }}">&larr;&nbsp;</a></li>
+	{% else %}
+		<li class="disabled"><a href="#">&larr;&nbsp;</a></li>
+	{% endif %}
+
+	{% if paginator.page == 1 %}
+    	<li class="disabled"><span>1</span></li>
+    {% else %}
+		<li><a href="{{site.baseurl}}/">1</a></li>
+	{% endif %}
+
+	<li class="active"><span>{{paginator.page}}&nbsp;of&nbsp;{{paginator.total_pages}}</span></li>
+
+	{% if paginator.page == paginator.total_pages %}
+    	<li class="disabled"><span>{{ paginator.page }}</span></li>
+    {% else %}
+		<li><a href="{{site.baseurl}}/page/{{ paginator.total_pages }}">{{ paginator.total_pages }}</a></li>
+	{% endif %}
+
+	{% if paginator.next_page %}
+		<li><a href="{{site.baseurl}}/{{ paginator.next_page_path }}">&nbsp;&rarr;</a></li>
+	{% else %}
+		<li class="disabled"><a href="#">&nbsp;&rarr;</a></li>
+	{% endif %}
+
+</ul>
