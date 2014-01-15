@@ -6,7 +6,7 @@
         {% if page.layout != nil %}
             {% if page.layout != 'feed' %}
                 <url>
-                    <loc>http://joecode.com/hackerbootshop{{ page.url | remove: 'index.html' }}</loc>
+                    <loc>http://joecode.com/tackle{{ page.url }}</loc>
                 </url>
             {% endif %}
         {% endif %}
